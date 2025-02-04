@@ -35,7 +35,6 @@ import {
     type Client,
     Clients,
     DbCacheAdapter,
-    defaultCharacter,
     elizaLogger,
     FsCacheAdapter,
     type IAgentRuntime,
@@ -158,6 +157,10 @@ import { quickIntelPlugin } from "@elizaos/plugin-quick-intel";
 
 import { trikonPlugin } from "@elizaos/plugin-trikon";
 import arbitragePlugin from "@elizaos/plugin-arbitrage";
+
+import { mainCharacter } from "./mainCharacter";
+import { chartImgPlugin } from "@elizaos/plugin-chart-img";
+
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
 
@@ -481,7 +484,7 @@ export async function loadCharacters(
 
     if (loadedCharacters.length === 0) {
         elizaLogger.info("No characters found, using default character");
-        loadedCharacters.push(defaultCharacter);
+        loadedCharacters.push(mainCharacter);
     }
 
     return loadedCharacters;
@@ -1139,6 +1142,10 @@ export async function createAgent(
             getSecret(character, "COINGECKO_PRO_API_KEY")
                 ? coingeckoPlugin
                 : null,
+            getSecret(character, "CHARTIMG_API_KEY") ||
+            getSecret(character, "CHARTIMG_PRO_API_KEY")
+                ? chartImgPlugin
+                : null,
             getSecret(character, "MORALIS_API_KEY") ? moralisPlugin : null,
             getSecret(character, "EVM_PROVIDER_URL") ? goatPlugin : null,
             getSecret(character, "ABSTRACT_PRIVATE_KEY")
@@ -1466,7 +1473,7 @@ const startAgents = async () => {
     let serverPort = Number.parseInt(settings.SERVER_PORT || "3000");
     const args = parseArguments();
     const charactersArg = args.characters || args.character;
-    let characters = [defaultCharacter];
+    let characters = [mainCharacter];
 
     if (process.env.IQ_WALLET_ADDRESS && process.env.IQSOlRPC) {
         characters = await loadCharacterFromOnchain();

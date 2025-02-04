@@ -250,6 +250,9 @@ importers:
       '@elizaos/plugin-chainbase':
         specifier: workspace:*
         version: link:../packages/plugin-chainbase
+      '@elizaos/plugin-chart-img':
+        specifier: workspace:*
+        version: link:../packages/plugin-chart-img
       '@elizaos/plugin-coinbase':
         specifier: workspace:*
         version: link:../packages/plugin-coinbase
@@ -2353,6 +2356,21 @@ importers:
       vitest:
         specifier: ^2.1.5
         version: 2.1.8(@types/node@22.12.0)(jsdom@25.0.1(bufferutil@4.0.9)(canvas@2.11.2(encoding@0.1.13))(utf-8-validate@6.0.5))(terser@5.37.0)
+
+  packages/plugin-chart-img:
+    dependencies:
+      '@elizaos/core':
+        specifier: workspace:*
+        version: link:../core
+      axios:
+        specifier: ^1.6.7
+        version: 1.7.9
+      openai:
+        specifier: 4.73.0
+        version: 4.73.0(encoding@0.1.13)(zod@3.24.1)
+      tsup:
+        specifier: ^8.3.5
+        version: 8.3.5(@swc/core@1.10.12(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.1)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0)
 
   packages/plugin-coinbase:
     dependencies:
